@@ -9,14 +9,14 @@ int TestOrOperation1()
     int temp = 0;
     BigBool result, result1, res;
 
-    BB_from_str("0011", &result);
-    BB_from_str("1010", &result1);
+    BB_from_str("001101100000011111", &result);
+    BB_from_str("101001001101000011", &result1);
     BB_disjunction(&result, &result1, &res);
 
     char* string = BB_to_str(&res);
 
     if (strcmp (string, "1011") != 0){
-        printf("0011 & 1010  != 1011\n");
+        printf("001101100000011111001111111111 & 101001001101000011001111111111  != 101101101101011111111111111111\n");
         printf ("Error in  1 test\n");
         temp++;
     }
