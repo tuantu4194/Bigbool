@@ -46,7 +46,7 @@ int get_bit(BigBool *BB, int pos) // return bit with input int number
     return (BB->vector[pos / 8] >> (pos % 8) & 1);
 }
 
-int BB_reverse_bits(BigBool *BB, int startBit, int endBit) 
+int BB_reverse_bits(BigBool *BB, int startBit, int endBit) // đảo ngược
 {
     if (BB == NULL) 
     {
