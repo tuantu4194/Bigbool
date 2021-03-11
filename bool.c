@@ -10,7 +10,8 @@ size_t len_bits(BigBool* BB){
     return BB->num_part * 8 + BB->num_bit;
 }
 
-int BB_reset(BigBool *BB) {
+int BB_reset(BigBool *BB)  // set all to 0
+{
     if (BB == NULL) {
         return ERR_NULL_ARG;
     }
@@ -23,15 +24,15 @@ int BB_reset(BigBool *BB) {
 int printBB(BigBool* BB) {
     size_t num_part = BB->num_part;
     size_t num_bit = BB->num_bit;
-    printf("Num parts:\t%d\nNum bit:\t%d\n", num_part, num_bit);
+    printf("Num parts:\t%d\nNum bit:\t%d\n", num_part, num_bit); // print amount bit and part
 
     for (size_t bit = num_bit; bit > 0; bit--) {
-        printf("%d", ((BB->vector[num_part]) >> (bit-1) & 1));
+        printf("%d", ((BB->vector[num_part]) >> (bit-1) & 1)); // print all bit
     }
 
     for (size_t part = num_part; part > 0; part--) {
         for (size_t bit = 8; bit > 0; bit--) {
-            printf("%d", ((BB->vector[part-1]) >> (bit-1) & 1));
+            printf("%d", ((BB->vector[part-1]) >> (bit-1) & 1)); // print all part (all part will print from bit 8 -> bit 0
         }
     }
 
@@ -40,23 +41,29 @@ int printBB(BigBool* BB) {
 }
 
 
-int get_bit(BigBool *BB, int pos) {
+int get_bit(BigBool *BB, int pos) // return bit with input int number
+{
     return (BB->vector[pos / 8] >> (pos % 8) & 1);
 }
 
-int BB_reverse_bits(BigBool *BB, int startBit, int endBit) {
-    if (BB == NULL) {
+int BB_reverse_bits(BigBool *BB, int startBit, int endBit) 
+{
+    if (BB == NULL) 
+    {
         return ERR_NULL_ARG;
     }
-    if ( startBit < 0 || endBit > MAX_PARTS*8 || startBit > endBit) {
+    if ( startBit < 0 || endBit > MAX_PARTS*8 || startBit > endBit) 
+    {
         return ERR_BAD_ARG;
     }
     BigBool tmp;
-    if (endBit/8 > BB->num_part) {
+    if (endBit/8 > BB->num_part) // if amount part > than amount part BB, set part BB to new
+    {
         BB->num_part = endBit / 8;
     } 
-    memcpy(&tmp, BB, MAX_PARTS);   
-    for(int pos = startBit; pos < endBit; pos++) {
+    memcpy(&tmp, BB, MAX_PARTS); // BB save in tmp   
+    for(int pos = startBit; pos < endBit; pos++) 
+    {
         tmp.vector[pos / 8] = tmp.vector[pos / 8] & ~(1 << (pos % 8));
         tmp.vector[pos / 8] |= get_bit(BB, (endBit - pos + startBit - 1)) << (pos % 8);
     }
