@@ -7,7 +7,7 @@
 #define MAX_PARTS 20
 
 //Error codes
-#define ERR_OK 0
+#define NO_ERR 0
 #define ERR_EMPTY_VECTOR 1
 #define ERR_BAD_STRING -2
 #define ERR_SMALL_SHIFT -4
@@ -23,14 +23,13 @@ typedef struct BigBool
 } BigBool;
 
 
-/*
- * Function: int BB_reset(BigBool **BB) set all part and bit to 0
+
  
- * Return:
+ /* Return:
         1) ERR_OK if all work properly
         2) ERR_NULL_ARG if BB == NULL
- */
-int BB_reset(BigBool *BB);
+ */   
+int BB_reset(BigBool *BB); // set all bit to 0
 {
     if (BB == NULL) 
     {
@@ -39,7 +38,7 @@ int BB_reset(BigBool *BB);
     memset(BB->vector, 0, MAX_PARTS);
     BB->num_bit = 0;
     BB->num_part = 0;
-    return ERR_OK;
+    return NO_ERR;
 }
 
 /*
@@ -72,7 +71,7 @@ int BB_reverse_bits(BigBool *BB, int sBit, int eBit)
         tmp.vector[pos / 8] |= get_bit(BB, (eBit - pos + sBit - 1)) << (pos % 8);
     }
     memcpy(BB, &tmp, MAX_PARTS);
-    return ERR_OK;
+    return NO_ERR;
 }
 
 /* 
@@ -129,7 +128,7 @@ int BB_from_str(char* str , BigBool* res )
         res->vector[num_part] |= ((str[index] - '0') << bit);
 
     }
-    return ERR_OK;
+    return NO_ERR;
 }
 
 /*
@@ -157,7 +156,7 @@ int BB_from_uint64(uint64_t num , BigBool* res)
     int pos = high_bit_pos_cycle(num);
     res->num_part = pos / 8;
     res->num_bit = pos % 8;
-    return ERR_OK;
+    return NO_ERR;
 };
 
 /*
@@ -219,7 +218,7 @@ int BB_disjunction (BigBool* BB1, BigBool* BB2, BigBool* res)
         res->vector[bit] = BB1->vector[bit];
     }
 
-    return ERR_OK;
+    return NO_ERR;
 }
 
 /*
@@ -253,7 +252,7 @@ int BB_conjunction (BigBool* BB1, BigBool* BB2, BigBool* res)
     {
         res->vector[pos / 8] |= get_bit(BB1, pos) << (pos % 8);
     }
-    return ERR_OK;
+    return NO_ERR;
 }
 
 /*
@@ -287,7 +286,7 @@ int BB_xor (BigBool* BB1, BigBool* BB2, BigBool* res)
     {
         res->vector[part] = BB1->vector[part];
     }
-    return ERR_OK;
+    return NO_ERR;
 }
 
 /*
@@ -314,7 +313,7 @@ int BB_inversion (BigBool* BB1, BigBool* res)
         res->vector[part] = ~BB1->vector[part];
     }
 
-    return ERR_OK;
+    return NO_ERR;
 }
 
 /*
@@ -367,7 +366,7 @@ int BB_left_shift (BigBool* BB, BigBool* res, int len_shift)
         res->vector[len_shift / 8] >>= len_shift % 8;
         res->vector[len_shift / 8] <<= len_shift % 8;
     }
-    return ERR_OK;
+    return NO_ERR;
 }
 
 /*
@@ -412,7 +411,7 @@ int BB_right_shift (BigBool* BB, BigBool* res, int len_shift)
         res->vector[LastNew] = BB->vector[LastNew + len_shift / 8];
         res->vector[LastNew] >>= len_shift % 8;
     }
-    return ERR_OK;
+    return NO_ERR;
 }
 
 /*
@@ -443,7 +442,7 @@ int BB_cyclic_left_shift (BigBool* BB, BigBool* res, int len_shift)
     BB_reverse_bits(res, len_bits(res)-len_shift, len_bits(res));
     BB_reverse_bits(res, 0, len_bits(res)-len_shift);
     BB_reverse_bits(res, 0, len_bits(res));
-    return ERR_OK;
+    return NO_ERR;
 };
 
 /*
