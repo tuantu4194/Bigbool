@@ -9,16 +9,16 @@
 //Error codes
 #define NO_ERR 0
 #define ERR_EMPTY_VECTOR 1
-#define ERR_BAD_STRING -2
+#define ERR_BAD_STRING 2
 #define ERR_SMALL_SHIFT -4
-#define ERR_BAD_ARG 2
-#define ERR_NULL_ARG 3
-#define ERR_EMPTY_STR 5
+#define ERR_BAD_ARG -2
+#define ERR_NULL_ARG -3
+#define ERR_EMPTY_STR -1
 
 typedef struct BigBool
 {
     uint8_t vector[MAX_PARTS]; // 20
-    size_t num_part;
+    size_t num_part; // 1 part = 8 bit
     size_t num_bit;
 } BigBool;
 
@@ -76,14 +76,13 @@ int BB_reverse_bits(BigBool *BB, int sBit, int eBit) // reverse BB from sBit to 
 /* 
    
  Returns:
-        1) ERR_OK if function work properly,
+        1) NO_ERR if function work properly,
         2) ERR_NULL_ARG if BB == NULL,
         3) ERR_EMPTY_VECTOR if strlen(str) == 0,
         4) ERR_BAD_STRING if string is not only '1' and '0'.
  */
 int BB_from_str(char* str , BigBool* res ) // convert string with char '0' and '1' to vecto bool
-
-    {
+{
 
     if (res == NULL) 
     {
@@ -131,14 +130,12 @@ int BB_from_str(char* str , BigBool* res ) // convert string with char '0' and '
 }
 
 /*
- * Function: int BB_from_uint64(uint64_t num , BigBool* res) use to Convert Unsigned Long Integer (64 bit) to big bool Vecter
- 
- * Returns:
+ Returns:
         1) ERR_OK if function work properly,
         2) ERR_NULL_ARG if res == NULL.
  */
 
-int BB_from_uint64(uint64_t num , BigBool* res) 
+int BB_from_uint64(uint64_t num , BigBool* res) // Convert Unsigned Long Integer (64 bit) to big bool Vecter
 {
 
     if (res == NULL)
@@ -159,12 +156,11 @@ int BB_from_uint64(uint64_t num , BigBool* res)
 };
 
 /*
- * Function: char* BB_to_str(BigBool* res) covert a BB vecto to string '0' and '1'
- * Returns:
+Returns:
         1) Pointer to string,
         2) NULL, if failed to allocate.
  */
-char* BB_to_str(BigBool* res)
+char* BB_to_str(BigBool* res) // covert a BB vecto to string '0' and '1'
 {
 
     size_t len = len_bits(BB);
@@ -185,15 +181,11 @@ char* BB_to_str(BigBool* res)
 }
 
 /*
- * Function: int BB_disjunction (BigBool* BB1, BigBool* BB2, BigBool* res)
- 
- * Description:  find BB1 or BB1
- 
- * Returns:
-        1) ERR_OK if function work properly,
+Returns:
+        1) NO_ERR if function work properly,
         2) ERR_BAD_ARG if BB == NULL.
  */
-int BB_disjunction (BigBool* BB1, BigBool* BB2, BigBool* res)
+int BB_disjunction (BigBool* BB1, BigBool* BB2, BigBool* res) // FIND BB1 | BB2
 {
 
     if (BB1 == NULL || res == NULL || BB2 == NULL)
@@ -220,15 +212,12 @@ int BB_disjunction (BigBool* BB1, BigBool* BB2, BigBool* res)
     return NO_ERR;
 }
 
-/*
- * Function: int BB_conjunction (BigBool* BB1, BigBool* BB2, BigBool* res)
- 
- * Description:  find BB1 and BB2
- * Returns:
-        1) ERR_OK if function work properly,
+
+ /* Returns:
+        1) NO_ERR if function work properly,
         2) ERR_BAD_ARG if BB == NULL.
  */
-int BB_conjunction (BigBool* BB1, BigBool* BB2, BigBool* res)
+int BB_conjunction (BigBool* BB1, BigBool* BB2, BigBool* res) // FIND BB1 & BB2
 {
 
     if (BB1 == NULL || res == NULL || BB2 == NULL) 
@@ -255,14 +244,11 @@ int BB_conjunction (BigBool* BB1, BigBool* BB2, BigBool* res)
 }
 
 /*
- * Function: int BB_xor (BigBool* BB1, BigBool* BB2, BigBool* res)
- * Description:  find BB1 xor BB2
- 
- * Returns:
-        1) ERR_OK if function work properly,
+Returns:
+        1) NO _ ERR if function work properly,
         2) ERR_BAD_ARG if BB == NULL.
  */
-int BB_xor (BigBool* BB1, BigBool* BB2, BigBool* res)
+int BB_xor (BigBool* BB1, BigBool* BB2, BigBool* res) // FIND BB1 XOR BB2
 {
 
     if (BB1 == NULL || res == NULL || BB2 == NULL) 
@@ -289,15 +275,11 @@ int BB_xor (BigBool* BB1, BigBool* BB2, BigBool* res)
 }
 
 /*
- * Function: int BB_inversion (BigBool* BB1, BigBool* res)
- 
-BB * Description:   makes inversion of bool vector ( ~BB ) 
- 
  * Returns:
-        1) ERR_OK if function work properly,
+        1) NO_ERR if function work properly,
         2) ERR_BAD_ARG if BB == NULL.
  */
-int BB_inversion (BigBool* BB1, BigBool* res)
+int BB_inversion (BigBool* BB1, BigBool* res) // makes inversion of bool vector ( ~BB ) 
 {
 
     if (BB1 == NULL || res == NULL) 
@@ -316,17 +298,13 @@ int BB_inversion (BigBool* BB1, BigBool* res)
 }
 
 /*
- * Function: int BB_left_shift (BigBool* BB, BigBool* res, size_t len_shift)
- 
- * Description:  do left shift number input ( << integer )
- 
- * Returns:
-        1) ERR_OK if function work properly,
+Returns:
+        1) NO_ERR if function work properly,
         2) ERR_BAD_ARG if BB == NULL,
         3) ERR_BIG_SHIFT if len of shift is bigger than len of vector,
         4) ERR_SMALL_SHIFT if len of shift less than 0.
  */
-int BB_left_shift (BigBool* BB, BigBool* res, int len_shift)
+int BB_left_shift (BigBool* BB, BigBool* res, int len_shift) // do left shift number input ( << integer )
 {
     if (BB == NULL || res == NULL || len_shift < 0) 
     {
@@ -369,17 +347,13 @@ int BB_left_shift (BigBool* BB, BigBool* res, int len_shift)
 }
 
 /*
- * Function: int BB_right_shift (BigBool* BB, BigBool* res, size_t len_shift)
- 
- * Description:  do left shift number input ( >> integer )
- 
- * Returns:
+Returns:
         1) ERR_OK if function work properly,
         2) ERR_BAD_ARG if BB == NULL,
         3) ERR_BIG_SHIFT if len of shift is bigger than len of vector,
         4) ERR_SMALL_SHIFT if len of shift less than 0.
  */
-int BB_right_shift (BigBool* BB, BigBool* res, int len_shift)
+int BB_right_shift (BigBool* BB, BigBool* res, int len_shift) // do RIGHT shift number input ( >> integer )
 {
 
     if (BB == NULL || res == NULL || len_shift < 0) {
@@ -414,17 +388,13 @@ int BB_right_shift (BigBool* BB, BigBool* res, int len_shift)
 }
 
 /*
- * Function: int BB_cyclic_left_shift (BigBool* BB, BigBool** res, size_t len_shift)
- 
- * Description: do cyclic left shift of bool vector
- 
- * Returns:
-        1) ERR_OK if function work properly,
+ Returns:
+        1) NO_ERR if function work properly,
         2) ERR_BAD_ARG if BB == NULL,
         3) BB_cyclic_right_shift(BB, res, -len_shift) if len of shift less than 0,
- *
+
  */
-int BB_cyclic_left_shift (BigBool* BB, BigBool* res, int len_shift)
+int BB_cyclic_left_shift (BigBool* BB, BigBool* res, int len_shift) // do cyclic left shift of bool vector
 {
     if (BB == NULL || res == NULL) 
     {
@@ -445,17 +415,13 @@ int BB_cyclic_left_shift (BigBool* BB, BigBool* res, int len_shift)
 };
 
 /*
- * Function: int BB_cyclic_right_shift (BigBool*BB, BigBool** res, size_t len_shift)
- 
- * Description: do cyclic right shift of bool vector
- 
  * Returns:
-        ) ERR_OK if function work properly,
+        1) NO_ERR if function work properly,
         2) ERR_BAD_ARG if BB == NULL,
         3) BB_cyclic_left_shift(BB, res, -len_shift) if len of shift less than 0,
  *
  */
-int BB_cyclic_right_shift (BigBool*BB, BigBool* res, int len_shift)
+int BB_cyclic_right_shift (BigBool*BB, BigBool* res, int len_shift) // do cyclic right shift of bool vector
 {
     if (BB == NULL || res == NULL) {
         return ERR_BAD_ARG;
