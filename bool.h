@@ -26,7 +26,7 @@ typedef struct BigBool
 
  
  /* Return:
-        1) ERR_OK if all work properly
+        1) NO_ERR if all work properly
         2) ERR_NULL_ARG if BB == NULL
  */   
 int BB_reset(BigBool *BB); // set all bit to 0
@@ -41,15 +41,14 @@ int BB_reset(BigBool *BB); // set all bit to 0
     return NO_ERR;
 }
 
-/*
- * Function: int BB_reverseBits(BigBool **BB, int startBit, int endBit) reverse BB from sBit to eBit
+
  
- * Return:
-        1) ERR_OK if all work properly,
+ /* Return:
+        1) NO_ERR if all work properly,
         2) ERR_NULL_ARG if BB == NULL,
         3) ERR_BAD_ARG if input number bad,
  */
-int BB_reverse_bits(BigBool *BB, int sBit, int eBit)
+int BB_reverse_bits(BigBool *BB, int sBit, int eBit) // reverse BB from sBit to eBit
 {
     if (BB == NULL) 
     {
@@ -75,15 +74,15 @@ int BB_reverse_bits(BigBool *BB, int sBit, int eBit)
 }
 
 /* 
- * Function: int BB_from_str(char* str , BigBool* res ) will convert string with char '0' and '1' to vecto bool
- 
- * Returns:
+   
+ Returns:
         1) ERR_OK if function work properly,
         2) ERR_NULL_ARG if BB == NULL,
         3) ERR_EMPTY_VECTOR if strlen(str) == 0,
         4) ERR_BAD_STRING if string is not only '1' and '0'.
  */
-int BB_from_str(char* str , BigBool* res )
+int BB_from_str(char* str , BigBool* res ) // convert string with char '0' and '1' to vecto bool
+
     {
 
     if (res == NULL) 
